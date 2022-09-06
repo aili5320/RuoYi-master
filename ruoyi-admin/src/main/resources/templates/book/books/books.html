@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('书名列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>书名：</label>
+                                <input type="text" name="bookName"/>
+                            </li>
+                            <li>
+                                <label>作者ID：</label>
+                                <input type="text" name="autId"/>
+                            </li>
+                            <li>
+                                <label>笔名：</label>
+                                <input type="text" name="autName"/>
+                            </li>
+                            <li>
+                                <label>作品首字母：</label>
+                                <input type="text" name="acronym"/>
+                            </li>
+                            <li>
+                                <label>作品类型：</label>
+                                <input type="text" name="genre"/>
+                            </li>
+                            <li>
+                                <label>作品主题：</label>
+                                <input type="text" name="theme"/>
+                            </li>
+                            <li>
+                                <label>关键字：</label>
+                                <input type="text" name="keyWord"/>
+                            </li>
+                            <li>
+                                <label>作品图片地址：</label>
+                                <input type="text" name="bookPic"/>
+                            </li>
+                            <li>
+                                <label>作者寄语：</label>
+                                <input type="text" name="wishes"/>
+                            </li>
+                            <li>
+                                <label>是否签订合同：</label>
+                                <input type="text" name="signContract"/>
+                            </li>
+                            <li>
+                                <label>作品状态：0连载中，1完结，：</label>
+                                <input type="text" name="serial"/>
+                            </li>
+                            <li>
+                                <label>检验状态：0未审核，1审核完成：</label>
+                                <input type="text" name="checkout"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field1"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field2"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field3"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field4"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field5"/>
+                            </li>
+                            <li>
+                                <label>修改时间：</label>
+                                <input type="text" class="time-input" placeholder="请选择修改时间" name="updataTime"/>
+                            </li>
+                            <li>
+                                <label>修改人：</label>
+                                <input type="text" name="updateUser"/>
+                            </li>
+                            <li>
+                                <label>收藏数：</label>
+                                <input type="text" name="favorite"/>
+                            </li>
+                            <li>
+                                <label>点击数：</label>
+                                <input type="text" name="hit"/>
+                            </li>
+                            <li>
+                                <label>征文活动：</label>
+                                <input type="text" name="collect"/>
+                            </li>
+                            <li>
+                                <label>作品总字数：</label>
+                                <input type="text" name="wordNum"/>
+                            </li>
+                            <li>
+                                <label>最新章节名称：</label>
+                                <input type="text" name="newChapter"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="book:books:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="book:books:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="book:books:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="book:books:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('book:books:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('book:books:remove')}]];
+        var bookIdDatas = [[${@dict.getType('${column.dictType}')}]];
+        var createTimeDatas = [[${@dict.getType('${column.dictType}')}]];
+        var prefix = ctx + "book/books";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "书名",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'bookId',
+                    title: '书籍ID',
+                    visible: false
+                },
+                {
+                    field: 'bookName',
+                    title: '书名'
+                },
+                {
+                    field: 'autId',
+                    title: '作者ID'
+                },
+                {
+                    field: 'autName',
+                    title: '笔名'
+                },
+                {
+                    field: 'acronym',
+                    title: '作品首字母'
+                },
+                {
+                    field: 'genre',
+                    title: '作品类型'
+                },
+                {
+                    field: 'theme',
+                    title: '作品主题'
+                },
+                {
+                    field: 'keyWord',
+                    title: '关键字'
+                },
+                {
+                    field: 'bookPic',
+                    title: '作品图片地址'
+                },
+                {
+                    field: 'intro',
+                    title: '简介'
+                },
+                {
+                    field: 'wishes',
+                    title: '作者寄语'
+                },
+                {
+                    field: 'signContract',
+                    title: '是否签订合同'
+                },
+                {
+                    field: 'serial',
+                    title: '作品状态：0连载中，1完结，'
+                },
+                {
+                    field: 'checkout',
+                    title: '检验状态：0未审核，1审核完成'
+                },
+                {
+                    field: 'field1',
+                    title: ''
+                },
+                {
+                    field: 'field2',
+                    title: ''
+                },
+                {
+                    field: 'field3',
+                    title: ''
+                },
+                {
+                    field: 'field4',
+                    title: ''
+                },
+                {
+                    field: 'field5',
+                    title: ''
+                },
+                {
+                    field: 'updataTime',
+                    title: '修改时间'
+                },
+                {
+                    field: 'updateUser',
+                    title: '修改人'
+                },
+                {
+                    field: 'remark',
+                    title: '备注'
+                },
+                {
+                    field: 'favorite',
+                    title: '收藏数'
+                },
+                {
+                    field: 'hit',
+                    title: '点击数'
+                },
+                {
+                    field: 'collect',
+                    title: '征文活动'
+                },
+                {
+                    field: 'wordNum',
+                    title: '作品总字数'
+                },
+                {
+                    field: 'newChapter',
+                    title: '最新章节名称'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.bookId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.bookId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

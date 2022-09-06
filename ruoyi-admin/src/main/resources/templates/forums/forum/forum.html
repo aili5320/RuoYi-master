@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('评论列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>用户Id：</label>
+                                <input type="text" name="userId"/>
+                            </li>
+                            <li>
+                                <label>评论用户名：</label>
+                                <input type="text" name="realName"/>
+                            </li>
+                            <li>
+                                <label>评论用户头像：</label>
+                                <input type="text" name="userPic"/>
+                            </li>
+                            <li>
+                                <label>评论书Id：</label>
+                                <input type="text" name="bookId"/>
+                            </li>
+                            <li>
+                                <label>评论章节Id：</label>
+                                <input type="text" name="chapterId"/>
+                            </li>
+                            <li>
+                                <label>修改时间：</label>
+                                <input type="text" class="time-input" placeholder="请选择修改时间" name="updataTime"/>
+                            </li>
+                            <li>
+                                <label>删除标识：</label>
+                                <input type="text" name="deleteFlage"/>
+                            </li>
+                            <li>
+                                <label>用户等级：</label>
+                                <input type="text" name="level"/>
+                            </li>
+                            <li>
+                                <label>评论标题：</label>
+                                <input type="text" name="forumTitle"/>
+                            </li>
+                            <li>
+                                <label>评论内容：</label>
+                                <input type="text" name="comment"/>
+                            </li>
+                            <li>
+                                <label>点赞数：</label>
+                                <input type="text" name="praise"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field1"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field2"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field3"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field4"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field5"/>
+                            </li>
+                            <li>
+                                <label>章节名称：</label>
+                                <input type="text" name="chapterName"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="forums:forum:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="forums:forum:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="forums:forum:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="forums:forum:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('forums:forum:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('forums:forum:remove')}]];
+        var forumIdDatas = [[${@dict.getType('${column.dictType}')}]];
+        var createTimeDatas = [[${@dict.getType('${column.dictType}')}]];
+        var prefix = ctx + "forums/forum";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "评论",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'forumId',
+                    title: '评论主键',
+                    visible: false
+                },
+                {
+                    field: 'userId',
+                    title: '用户Id'
+                },
+                {
+                    field: 'realName',
+                    title: '评论用户名'
+                },
+                {
+                    field: 'userPic',
+                    title: '评论用户头像'
+                },
+                {
+                    field: 'bookId',
+                    title: '评论书Id'
+                },
+                {
+                    field: 'chapterId',
+                    title: '评论章节Id'
+                },
+                {
+                    field: 'updataTime',
+                    title: '修改时间'
+                },
+                {
+                    field: 'deleteFlage',
+                    title: '删除标识'
+                },
+                {
+                    field: 'level',
+                    title: '用户等级'
+                },
+                {
+                    field: 'forumTitle',
+                    title: '评论标题'
+                },
+                {
+                    field: 'comment',
+                    title: '评论内容'
+                },
+                {
+                    field: 'praise',
+                    title: '点赞数'
+                },
+                {
+                    field: 'field1',
+                    title: ''
+                },
+                {
+                    field: 'field2',
+                    title: ''
+                },
+                {
+                    field: 'field3',
+                    title: ''
+                },
+                {
+                    field: 'field4',
+                    title: ''
+                },
+                {
+                    field: 'field5',
+                    title: ''
+                },
+                {
+                    field: 'chapterName',
+                    title: '章节名称'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.forumId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.forumId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

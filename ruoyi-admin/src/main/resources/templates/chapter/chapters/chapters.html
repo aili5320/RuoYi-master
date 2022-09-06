@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('章节列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>小说id：</label>
+                                <input type="text" name="bookId"/>
+                            </li>
+                            <li>
+                                <label>书名：</label>
+                                <input type="text" name="bookName"/>
+                            </li>
+                            <li>
+                                <label>章节名称：</label>
+                                <input type="text" name="chapterName"/>
+                            </li>
+                            <li>
+                                <label>作者寄语：</label>
+                                <input type="text" name="sendWord"/>
+                            </li>
+                            <li>
+                                <label>删除标识：</label>
+                                <input type="text" name="isDelete"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field1"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field2"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field3"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field4"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="field5"/>
+                            </li>
+                            <li>
+                                <label>章节字数：</label>
+                                <input type="text" name="chapterNum"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="chapter:chapters:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="chapter:chapters:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="chapter:chapters:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="chapter:chapters:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('chapter:chapters:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('chapter:chapters:remove')}]];
+        var chapterIdDatas = [[${@dict.getType('${column.dictType}')}]];
+        var createTimeDatas = [[${@dict.getType('${column.dictType}')}]];
+        var updateTimeDatas = [[${@dict.getType('${column.dictType}')}]];
+        var prefix = ctx + "chapter/chapters";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "章节",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'chapterId',
+                    title: '章节Id',
+                    visible: false
+                },
+                {
+                    field: 'bookId',
+                    title: '小说id'
+                },
+                {
+                    field: 'bookName',
+                    title: '书名'
+                },
+                {
+                    field: 'chapterName',
+                    title: '章节名称'
+                },
+                {
+                    field: 'content',
+                    title: '章节内容'
+                },
+                {
+                    field: 'sendWord',
+                    title: '作者寄语'
+                },
+                {
+                    field: 'isDelete',
+                    title: '删除标识'
+                },
+                {
+                    field: 'remark',
+                    title: '备注'
+                },
+                {
+                    field: 'field1',
+                    title: ''
+                },
+                {
+                    field: 'field2',
+                    title: ''
+                },
+                {
+                    field: 'field3',
+                    title: ''
+                },
+                {
+                    field: 'field4',
+                    title: ''
+                },
+                {
+                    field: 'field5',
+                    title: ''
+                },
+                {
+                    field: 'chapterNum',
+                    title: '章节字数'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.chapterId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.chapterId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
