@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.novel.mapper.AiAuthorMapper">
+    
+    <resultMap type="AiAuthor" id="AiAuthorResult">
+        <result property="autId"    column="aut_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="password"    column="password"    />
+        <result property="salt"    column="salt"    />
+        <result property="autName"    column="aut_name"    />
+        <result property="phone"    column="phone"    />
+        <result property="qq"    column="qq"    />
+        <result property="email"    column="email"    />
+        <result property="autPic"    column="autPic"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updataTime"    column="updata_time"    />
+        <result property="deleteFlage"    column="delete_flage"    />
+        <result property="field1"    column="field1"    />
+        <result property="field2"    column="field2"    />
+        <result property="field3"    column="field3"    />
+        <result property="field4"    column="field4"    />
+        <result property="field5"    column="field5"    />
+        <result property="level"    column="level"    />
+        <result property="signed"    column="signed"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectAiAuthorVo">
+        select aut_id, user_id, password, salt, aut_name, phone, qq, email, autPic, create_time, updata_time, delete_flage, field1, field2, field3, field4, field5, level, signed, remark from ai_author
+    </sql>
+
+    <select id="selectAiAuthorList" parameterType="AiAuthor" resultMap="AiAuthorResult">
+        <include refid="selectAiAuthorVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="salt != null  and salt != ''"> and salt = #{salt}</if>
+            <if test="autName != null  and autName != ''"> and aut_name like concat('%', #{autName}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="qq != null  and qq != ''"> and qq = #{qq}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="autPic != null  and autPic != ''"> and autPic = #{autPic}</if>
+            <if test="updataTime != null "> and updata_time = #{updataTime}</if>
+            <if test="deleteFlage != null  and deleteFlage != ''"> and delete_flage = #{deleteFlage}</if>
+            <if test="field1 != null  and field1 != ''"> and field1 = #{field1}</if>
+            <if test="field2 != null  and field2 != ''"> and field2 = #{field2}</if>
+            <if test="field3 != null  and field3 != ''"> and field3 = #{field3}</if>
+            <if test="field4 != null  and field4 != ''"> and field4 = #{field4}</if>
+            <if test="field5 != null  and field5 != ''"> and field5 = #{field5}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="signed != null  and signed != ''"> and signed = #{signed}</if>
+        </where>
+    </select>
+    
+    <select id="selectAiAuthorByAutId" parameterType="String" resultMap="AiAuthorResult">
+        <include refid="selectAiAuthorVo"/>
+        where aut_id = #{autId}
+    </select>
+        
+    <insert id="insertAiAuthor" parameterType="AiAuthor">
+        insert into ai_author
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="autId != null">aut_id,</if>
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="password != null">password,</if>
+            <if test="salt != null">salt,</if>
+            <if test="autName != null">aut_name,</if>
+            <if test="phone != null">phone,</if>
+            <if test="qq != null">qq,</if>
+            <if test="email != null">email,</if>
+            <if test="autPic != null">autPic,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updataTime != null">updata_time,</if>
+            <if test="deleteFlage != null">delete_flage,</if>
+            <if test="field1 != null">field1,</if>
+            <if test="field2 != null">field2,</if>
+            <if test="field3 != null">field3,</if>
+            <if test="field4 != null">field4,</if>
+            <if test="field5 != null">field5,</if>
+            <if test="level != null">level,</if>
+            <if test="signed != null">signed,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="autId != null">#{autId},</if>
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="password != null">#{password},</if>
+            <if test="salt != null">#{salt},</if>
+            <if test="autName != null">#{autName},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="qq != null">#{qq},</if>
+            <if test="email != null">#{email},</if>
+            <if test="autPic != null">#{autPic},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updataTime != null">#{updataTime},</if>
+            <if test="deleteFlage != null">#{deleteFlage},</if>
+            <if test="field1 != null">#{field1},</if>
+            <if test="field2 != null">#{field2},</if>
+            <if test="field3 != null">#{field3},</if>
+            <if test="field4 != null">#{field4},</if>
+            <if test="field5 != null">#{field5},</if>
+            <if test="level != null">#{level},</if>
+            <if test="signed != null">#{signed},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAiAuthor" parameterType="AiAuthor">
+        update ai_author
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="salt != null">salt = #{salt},</if>
+            <if test="autName != null">aut_name = #{autName},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="qq != null">qq = #{qq},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="autPic != null">autPic = #{autPic},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updataTime != null">updata_time = #{updataTime},</if>
+            <if test="deleteFlage != null">delete_flage = #{deleteFlage},</if>
+            <if test="field1 != null">field1 = #{field1},</if>
+            <if test="field2 != null">field2 = #{field2},</if>
+            <if test="field3 != null">field3 = #{field3},</if>
+            <if test="field4 != null">field4 = #{field4},</if>
+            <if test="field5 != null">field5 = #{field5},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="signed != null">signed = #{signed},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where aut_id = #{autId}
+    </update>
+
+    <delete id="deleteAiAuthorByAutId" parameterType="String">
+        delete from ai_author where aut_id = #{autId}
+    </delete>
+
+    <delete id="deleteAiAuthorByAutIds" parameterType="String">
+        delete from ai_author where aut_id in 
+        <foreach item="autId" collection="array" open="(" separator="," close=")">
+            #{autId}
+        </foreach>
+    </delete>
+
+
+    <select id="selectAiAuthorByPass" parameterType="AiUser" resultMap="AiAuthorResult">
+        <include refid="selectAiAuthorVo"></include>
+        <where>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+        </where>
+    </select>
+
+</mapper>

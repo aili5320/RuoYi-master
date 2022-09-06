@@ -66,6 +66,12 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
+        <!--小说模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>rouyi-novel</artifactId>
+        </dependency>
+
 
     </dependencies>
 

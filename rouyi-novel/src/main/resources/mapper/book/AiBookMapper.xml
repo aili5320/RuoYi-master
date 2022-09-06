@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.novel.mapper.AiBookMapper">
+    
+    <resultMap type="AiBook" id="AiBookResult">
+        <result property="bookId"    column="book_id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="autId"    column="aut_id"    />
+        <result property="autName"    column="aut_name"    />
+        <result property="acronym"    column="acronym"    />
+        <result property="genre"    column="genre"    />
+        <result property="theme"    column="theme"    />
+        <result property="keyWord"    column="key_word"    />
+        <result property="bookPic"    column="book_pic"    />
+        <result property="intro"    column="intro"    />
+        <result property="wishes"    column="wishes"    />
+        <result property="signContract"    column="sign_contract"    />
+        <result property="serial"    column="serial"    />
+        <result property="checkout"    column="checkout"    />
+        <result property="field1"    column="field1"    />
+        <result property="field2"    column="field2"    />
+        <result property="field3"    column="field3"    />
+        <result property="field4"    column="field4"    />
+        <result property="field5"    column="field5"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updataTime"    column="updata_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="remark"    column="remark"    />
+        <result property="favorite"    column="favorite"    />
+        <result property="hit"    column="hit"    />
+        <result property="collect"    column="collect"    />
+        <result property="wordNum"    column="word_num"    />
+        <result property="newChapter"    column="new_chapter"    />
+    </resultMap>
+
+    <sql id="selectAiBookVo">
+        select book_id, book_name, aut_id, aut_name, acronym, genre, theme, key_word, book_pic, intro, wishes, sign_contract, serial, checkout, field1, field2, field3, field4, field5, create_time, updata_time, update_user, remark, favorite, hit, collect, word_num, new_chapter from ai_book
+    </sql>
+
+    <select id="selectAiBookList" parameterType="AiBook" resultMap="AiBookResult">
+        <include refid="selectAiBookVo"/>
+        <where>  
+            <if test="bookName != null  and bookName != ''"> and book_name like concat('%', #{bookName}, '%')</if>
+            <if test="autId != null  and autId != ''"> and aut_id = #{autId}</if>
+            <if test="autName != null  and autName != ''"> and aut_name like concat('%', #{autName}, '%')</if>
+            <if test="acronym != null  and acronym != ''"> and acronym = #{acronym}</if>
+            <if test="genre != null  and genre != ''"> and genre = #{genre}</if>
+            <if test="theme != null  and theme != ''"> and theme = #{theme}</if>
+            <if test="keyWord != null  and keyWord != ''"> and key_word = #{keyWord}</if>
+            <if test="bookPic != null  and bookPic != ''"> and book_pic = #{bookPic}</if>
+            <if test="intro != null  and intro != ''"> and intro = #{intro}</if>
+            <if test="wishes != null  and wishes != ''"> and wishes = #{wishes}</if>
+            <if test="signContract != null  and signContract != ''"> and sign_contract = #{signContract}</if>
+            <if test="serial != null  and serial != ''"> and serial = #{serial}</if>
+            <if test="checkout != null  and checkout != ''"> and checkout = #{checkout}</if>
+            <if test="field1 != null  and field1 != ''"> and field1 = #{field1}</if>
+            <if test="field2 != null  and field2 != ''"> and field2 = #{field2}</if>
+            <if test="field3 != null  and field3 != ''"> and field3 = #{field3}</if>
+            <if test="field4 != null  and field4 != ''"> and field4 = #{field4}</if>
+            <if test="field5 != null  and field5 != ''"> and field5 = #{field5}</if>
+            <if test="updataTime != null "> and updata_time = #{updataTime}</if>
+            <if test="updateUser != null  and updateUser != ''"> and update_user = #{updateUser}</if>
+            <if test="favorite != null  and favorite != ''"> and favorite = #{favorite}</if>
+            <if test="hit != null  and hit != ''"> and hit = #{hit}</if>
+            <if test="collect != null  and collect != ''"> and collect = #{collect}</if>
+            <if test="wordNum != null  and wordNum != ''"> and word_num = #{wordNum}</if>
+            <if test="newChapter != null  and newChapter != ''"> and new_chapter = #{newChapter}</if>
+        </where>
+    </select>
+    
+    <select id="selectAiBookByBookId" parameterType="String" resultMap="AiBookResult">
+        <include refid="selectAiBookVo"/>
+        where book_id = #{bookId}
+    </select>
+        
+    <insert id="insertAiBook" parameterType="AiBook">
+        insert into ai_book
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bookId != null">book_id,</if>
+            <if test="bookName != null">book_name,</if>
+            <if test="autId != null">aut_id,</if>
+            <if test="autName != null">aut_name,</if>
+            <if test="acronym != null">acronym,</if>
+            <if test="genre != null">genre,</if>
+            <if test="theme != null">theme,</if>
+            <if test="keyWord != null">key_word,</if>
+            <if test="bookPic != null">book_pic,</if>
+            <if test="intro != null">intro,</if>
+            <if test="wishes != null">wishes,</if>
+            <if test="signContract != null">sign_contract,</if>
+            <if test="serial != null">serial,</if>
+            <if test="checkout != null">checkout,</if>
+            <if test="field1 != null">field1,</if>
+            <if test="field2 != null">field2,</if>
+            <if test="field3 != null">field3,</if>
+            <if test="field4 != null">field4,</if>
+            <if test="field5 != null">field5,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updataTime != null">updata_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="remark != null">remark,</if>
+            <if test="favorite != null">favorite,</if>
+            <if test="hit != null">hit,</if>
+            <if test="collect != null">collect,</if>
+            <if test="wordNum != null">word_num,</if>
+            <if test="newChapter != null">new_chapter,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bookId != null">#{bookId},</if>
+            <if test="bookName != null">#{bookName},</if>
+            <if test="autId != null">#{autId},</if>
+            <if test="autName != null">#{autName},</if>
+            <if test="acronym != null">#{acronym},</if>
+            <if test="genre != null">#{genre},</if>
+            <if test="theme != null">#{theme},</if>
+            <if test="keyWord != null">#{keyWord},</if>
+            <if test="bookPic != null">#{bookPic},</if>
+            <if test="intro != null">#{intro},</if>
+            <if test="wishes != null">#{wishes},</if>
+            <if test="signContract != null">#{signContract},</if>
+            <if test="serial != null">#{serial},</if>
+            <if test="checkout != null">#{checkout},</if>
+            <if test="field1 != null">#{field1},</if>
+            <if test="field2 != null">#{field2},</if>
+            <if test="field3 != null">#{field3},</if>
+            <if test="field4 != null">#{field4},</if>
+            <if test="field5 != null">#{field5},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updataTime != null">#{updataTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="favorite != null">#{favorite},</if>
+            <if test="hit != null">#{hit},</if>
+            <if test="collect != null">#{collect},</if>
+            <if test="wordNum != null">#{wordNum},</if>
+            <if test="newChapter != null">#{newChapter},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAiBook" parameterType="AiBook">
+        update ai_book
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bookName != null">book_name = #{bookName},</if>
+            <if test="autId != null">aut_id = #{autId},</if>
+            <if test="autName != null">aut_name = #{autName},</if>
+            <if test="acronym != null">acronym = #{acronym},</if>
+            <if test="genre != null">genre = #{genre},</if>
+            <if test="theme != null">theme = #{theme},</if>
+            <if test="keyWord != null">key_word = #{keyWord},</if>
+            <if test="bookPic != null">book_pic = #{bookPic},</if>
+            <if test="intro != null">intro = #{intro},</if>
+            <if test="wishes != null">wishes = #{wishes},</if>
+            <if test="signContract != null">sign_contract = #{signContract},</if>
+            <if test="serial != null">serial = #{serial},</if>
+            <if test="checkout != null">checkout = #{checkout},</if>
+            <if test="field1 != null">field1 = #{field1},</if>
+            <if test="field2 != null">field2 = #{field2},</if>
+            <if test="field3 != null">field3 = #{field3},</if>
+            <if test="field4 != null">field4 = #{field4},</if>
+            <if test="field5 != null">field5 = #{field5},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updataTime != null">updata_time = #{updataTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="favorite != null">favorite = #{favorite},</if>
+            <if test="hit != null">hit = #{hit},</if>
+            <if test="collect != null">collect = #{collect},</if>
+            <if test="wordNum != null">word_num = #{wordNum},</if>
+            <if test="newChapter != null">new_chapter = #{newChapter},</if>
+        </trim>
+        where book_id = #{bookId}
+    </update>
+
+    <delete id="deleteAiBookByBookId" parameterType="String">
+        delete from ai_book where book_id = #{bookId}
+    </delete>
+
+    <delete id="deleteAiBookByBookIds" parameterType="String">
+        delete from ai_book where book_id in 
+        <foreach item="bookId" collection="array" open="(" separator="," close=")">
+            #{bookId}
+        </foreach>
+    </delete>
+
+    <select id="selectAiBookByAutId"  parameterType="String"  resultMap="AiBookResult">
+        <include refid="selectAiBookVo"/>
+        <where>
+            <if test="autId != null  and autId != ''"> and aut_id = #{autId}</if>
+        </where>
+    </select>
+
+    <select id="selectAiBookByBookName"  parameterType="String" resultMap="AiBookResult">
+        <include refid="selectAiBookVo"/>
+        <where>
+            book_name like  concat('%', #{searchBook}, '%')
+        </where>
+    </select>
+
+</mapper>

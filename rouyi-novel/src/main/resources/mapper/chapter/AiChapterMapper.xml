@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.novel.mapper.AiChapterMapper">
+    
+    <resultMap type="AiChapter" id="AiChapterResult">
+        <result property="chapterId"    column="chapter_id"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="chapterName"    column="chapter_name"    />
+        <result property="content"    column="content"    />
+        <result property="sendWord"    column="send_word"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="remark"    column="remark"    />
+        <result property="field1"    column="field1"    />
+        <result property="field2"    column="field2"    />
+        <result property="field3"    column="field3"    />
+        <result property="field4"    column="field4"    />
+        <result property="field5"    column="field5"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="chapterNum"    column="chapter_num"    />
+    </resultMap>
+
+    <sql id="selectAiChapterVo">
+        select chapter_id, book_id, book_name, chapter_name, content, send_word, create_time, is_delete, remark, field1, field2, field3, field4, field5, update_time, chapter_num from ai_chapter
+    </sql>
+
+    <select id="selectAiChapterList" parameterType="AiChapter" resultMap="AiChapterResult">
+        <include refid="selectAiChapterVo"/>
+        <where>  
+            <if test="bookId != null  and bookId != ''"> and book_id = #{bookId}</if>
+            <if test="bookName != null  and bookName != ''"> and book_name like concat('%', #{bookName}, '%')</if>
+            <if test="chapterName != null  and chapterName != ''"> and chapter_name like concat('%', #{chapterName}, '%')</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="sendWord != null  and sendWord != ''"> and send_word = #{sendWord}</if>
+            <if test="isDelete != null  and isDelete != ''"> and is_delete = #{isDelete}</if>
+            <if test="field1 != null  and field1 != ''"> and field1 = #{field1}</if>
+            <if test="field2 != null  and field2 != ''"> and field2 = #{field2}</if>
+            <if test="field3 != null  and field3 != ''"> and field3 = #{field3}</if>
+            <if test="field4 != null  and field4 != ''"> and field4 = #{field4}</if>
+            <if test="field5 != null  and field5 != ''"> and field5 = #{field5}</if>
+            <if test="chapterNum != null "> and chapter_num = #{chapterNum}</if>
+        </where>
+    </select>
+    
+    <select id="selectAiChapterByChapterId" parameterType="String" resultMap="AiChapterResult">
+        <include refid="selectAiChapterVo"/>
+        where chapter_id = #{chapterId}
+    </select>
+        
+    <insert id="insertAiChapter" parameterType="AiChapter">
+        insert into ai_chapter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="chapterId != null">chapter_id,</if>
+            <if test="bookId != null and bookId != ''">book_id,</if>
+            <if test="bookName != null">book_name,</if>
+            <if test="chapterName != null">chapter_name,</if>
+            <if test="content != null">content,</if>
+            <if test="sendWord != null">send_word,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="remark != null">remark,</if>
+            <if test="field1 != null">field1,</if>
+            <if test="field2 != null">field2,</if>
+            <if test="field3 != null">field3,</if>
+            <if test="field4 != null">field4,</if>
+            <if test="field5 != null">field5,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="chapterNum != null">chapter_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="chapterId != null">#{chapterId},</if>
+            <if test="bookId != null and bookId != ''">#{bookId},</if>
+            <if test="bookName != null">#{bookName},</if>
+            <if test="chapterName != null">#{chapterName},</if>
+            <if test="content != null">#{content},</if>
+            <if test="sendWord != null">#{sendWord},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="field1 != null">#{field1},</if>
+            <if test="field2 != null">#{field2},</if>
+            <if test="field3 != null">#{field3},</if>
+            <if test="field4 != null">#{field4},</if>
+            <if test="field5 != null">#{field5},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="chapterNum != null">#{chapterNum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAiChapter" parameterType="AiChapter">
+        update ai_chapter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bookId != null and bookId != ''">book_id = #{bookId},</if>
+            <if test="bookName != null">book_name = #{bookName},</if>
+            <if test="chapterName != null">chapter_name = #{chapterName},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="sendWord != null">send_word = #{sendWord},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="field1 != null">field1 = #{field1},</if>
+            <if test="field2 != null">field2 = #{field2},</if>
+            <if test="field3 != null">field3 = #{field3},</if>
+            <if test="field4 != null">field4 = #{field4},</if>
+            <if test="field5 != null">field5 = #{field5},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="chapterNum != null">chapter_num = #{chapterNum},</if>
+        </trim>
+        where chapter_id = #{chapterId}
+    </update>
+
+    <delete id="deleteAiChapterByChapterId" parameterType="String">
+        delete from ai_chapter where chapter_id = #{chapterId}
+    </delete>
+
+    <delete id="deleteAiChapterByChapterIds" parameterType="String">
+        delete from ai_chapter where chapter_id in 
+        <foreach item="chapterId" collection="array" open="(" separator="," close=")">
+            #{chapterId}
+        </foreach>
+    </delete>
+
+
+
+    <select id="selectAiChapterByBookId" parameterType="String" resultMap="AiChapterResult">
+        select chapter_id,chapter_name ,create_time from ai_chapter
+        where book_id = #{bookId} order by create_time;
+    </select>
+
+    <select id="selectAiChapterNumByBookId" parameterType="String" resultMap="AiChapterResult">
+        select chapter_num from ai_chapter
+        where book_id = #{bookId} order by create_time;
+    </select>
+
+
+    <select id="queryChapterByBookId" parameterType="hashmap" resultMap="AiChapterResult">
+        <include refid="selectAiChapterVo"/>
+        where book_id = #{bookId}  ORDER BY create_time  limit #{PageNo},#{pageSize};
+    </select>
+
+
+
+    <select id="getCount" parameterType="String" resultType="java.lang.Integer">
+       select  count(chapter_id) from ai_chapter  where book_id = #{bookId};
+    </select>
+
+</mapper>

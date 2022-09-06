@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.novel.mapper.AiForumMapper">
+    
+    <resultMap type="AiForum" id="AiForumResult">
+        <result property="forumId"    column="forum_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="realName"    column="real_name"    />
+        <result property="userPic"    column="userPic"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="chapterId"    column="chapter_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updataTime"    column="updata_time"    />
+        <result property="deleteFlage"    column="delete_flage"    />
+        <result property="level"    column="level"    />
+        <result property="forumTitle"    column="forum_title"    />
+        <result property="comment"    column="comment"    />
+        <result property="praise"    column="praise"    />
+        <result property="field1"    column="field1"    />
+        <result property="field2"    column="field2"    />
+        <result property="field3"    column="field3"    />
+        <result property="field4"    column="field4"    />
+        <result property="field5"    column="field5"    />
+        <result property="chapterName"    column="chapter_name"    />
+    </resultMap>
+
+    <sql id="selectAiForumVo">
+        select forum_id, user_id, real_name, userPic, book_id, chapter_id, create_time, updata_time, delete_flage, level, forum_title, comment, praise, field1, field2, field3, field4, field5, chapter_name from ai_forum
+    </sql>
+
+    <select id="selectAiForumList" parameterType="AiForum" resultMap="AiForumResult">
+        <include refid="selectAiForumVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="realName != null  and realName != ''"> and real_name like concat('%', #{realName}, '%')</if>
+            <if test="userPic != null  and userPic != ''"> and userPic = #{userPic}</if>
+            <if test="bookId != null  and bookId != ''"> and book_id = #{bookId}</if>
+            <if test="chapterId != null  and chapterId != ''"> and chapter_id = #{chapterId}</if>
+            <if test="updataTime != null "> and updata_time = #{updataTime}</if>
+            <if test="deleteFlage != null  and deleteFlage != ''"> and delete_flage = #{deleteFlage}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="forumTitle != null  and forumTitle != ''"> and forum_title = #{forumTitle}</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+            <if test="praise != null  and praise != ''"> and praise = #{praise}</if>
+            <if test="field1 != null  and field1 != ''"> and field1 = #{field1}</if>
+            <if test="field2 != null  and field2 != ''"> and field2 = #{field2}</if>
+            <if test="field3 != null  and field3 != ''"> and field3 = #{field3}</if>
+            <if test="field4 != null  and field4 != ''"> and field4 = #{field4}</if>
+            <if test="field5 != null  and field5 != ''"> and field5 = #{field5}</if>
+            <if test="chapterName != null  and chapterName != ''"> and chapter_name like concat('%', #{chapterName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAiForumByForumId" parameterType="String" resultMap="AiForumResult">
+        <include refid="selectAiForumVo"/>
+        where forum_id = #{forumId}
+    </select>
+        
+    <insert id="insertAiForum" parameterType="AiForum">
+        insert into ai_forum
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="forumId != null">forum_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="realName != null">real_name,</if>
+            <if test="userPic != null">userPic,</if>
+            <if test="bookId != null">book_id,</if>
+            <if test="chapterId != null">chapter_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updataTime != null">updata_time,</if>
+            <if test="deleteFlage != null">delete_flage,</if>
+            <if test="level != null">level,</if>
+            <if test="forumTitle != null">forum_title,</if>
+            <if test="comment != null">comment,</if>
+            <if test="praise != null">praise,</if>
+            <if test="field1 != null">field1,</if>
+            <if test="field2 != null">field2,</if>
+            <if test="field3 != null">field3,</if>
+            <if test="field4 != null">field4,</if>
+            <if test="field5 != null">field5,</if>
+            <if test="chapterName != null and chapterName != ''">chapter_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="forumId != null">#{forumId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="realName != null">#{realName},</if>
+            <if test="userPic != null">#{userPic},</if>
+            <if test="bookId != null">#{bookId},</if>
+            <if test="chapterId != null">#{chapterId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updataTime != null">#{updataTime},</if>
+            <if test="deleteFlage != null">#{deleteFlage},</if>
+            <if test="level != null">#{level},</if>
+            <if test="forumTitle != null">#{forumTitle},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="praise != null">#{praise},</if>
+            <if test="field1 != null">#{field1},</if>
+            <if test="field2 != null">#{field2},</if>
+            <if test="field3 != null">#{field3},</if>
+            <if test="field4 != null">#{field4},</if>
+            <if test="field5 != null">#{field5},</if>
+            <if test="chapterName != null and chapterName != ''">#{chapterName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAiForum" parameterType="AiForum">
+        update ai_forum
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="userPic != null">userPic = #{userPic},</if>
+            <if test="bookId != null">book_id = #{bookId},</if>
+            <if test="chapterId != null">chapter_id = #{chapterId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updataTime != null">updata_time = #{updataTime},</if>
+            <if test="deleteFlage != null">delete_flage = #{deleteFlage},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="forumTitle != null">forum_title = #{forumTitle},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="praise != null">praise = #{praise},</if>
+            <if test="field1 != null">field1 = #{field1},</if>
+            <if test="field2 != null">field2 = #{field2},</if>
+            <if test="field3 != null">field3 = #{field3},</if>
+            <if test="field4 != null">field4 = #{field4},</if>
+            <if test="field5 != null">field5 = #{field5},</if>
+            <if test="chapterName != null and chapterName != ''">chapter_name = #{chapterName},</if>
+        </trim>
+        where forum_id = #{forumId}
+    </update>
+
+    <delete id="deleteAiForumByForumId" parameterType="String">
+        delete from ai_forum where forum_id = #{forumId}
+    </delete>
+
+    <delete id="deleteAiForumByForumIds" parameterType="String">
+        delete from ai_forum where forum_id in 
+        <foreach item="forumId" collection="array" open="(" separator="," close=")">
+            #{forumId}
+        </foreach>
+    </delete>
+
+    <select id="selectAiForumByChapterId" parameterType="AiForum" resultMap="AiForumResult">
+        <include refid="selectAiForumVo"/>
+
+           where chapter_id = #{chapterId} order by create_time desc
+
+    </select>
+
+
+    <select id="queryForumByBookId" parameterType="AiForum" resultMap="AiForumResult">
+        <include refid="selectAiForumVo"/>
+        where book_id = #{bookId} order by create_time desc
+    </select>
+
+    <select id="queryForumByUserId" parameterType="AiForum" resultMap="AiForumResult">
+        <include refid="selectAiForumVo"/>
+        where user_id = #{userId} order by create_time desc
+    </select>
+
+</mapper>

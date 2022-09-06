@@ -1,0 +1,3 @@
+#文件上传根路径
+file:
+  imgPath: D:/upload/
